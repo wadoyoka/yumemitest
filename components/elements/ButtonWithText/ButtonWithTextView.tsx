@@ -42,7 +42,12 @@ export function ButtonWithTextView({
           onClick={() => {}}
         />
       )}
-      <span style={{ fontSize: `${textSize}px` }}>{text}</span>
+      <span
+        className={`${mode == 'radio' && isCheck == false && 'text-gray-400'}`}
+        style={{ fontSize: `${textSize}px` }}
+      >
+        {text}
+      </span>
     </button>
   )
 }
