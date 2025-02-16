@@ -1,5 +1,5 @@
 import ButtonWithText from '@/components/elements/ButtonWithText/ButtonWithText'
-import { CheckBoxesProps } from '@/components/layout/CheckBoxes/CheckBoxesProps'
+import type { CheckBoxesProps } from '@/components/layout/CheckBoxes/CheckBoxesProps'
 
 interface CheckBoxesViewProps extends Omit<CheckBoxesProps, 'onCheckChange'> {
   onCheck: (prefCode: number) => void
@@ -14,7 +14,7 @@ export function CheckBoxesView({
   onCheck,
 }: CheckBoxesViewProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
       {prefectures.map((prefecture) => (
         <ButtonWithText
           key={prefecture.prefCode}

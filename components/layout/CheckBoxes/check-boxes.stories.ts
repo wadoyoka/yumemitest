@@ -1,4 +1,4 @@
-import { Prefecture } from '@/types/Prefecture/Prefecture'
+import type { Prefecture } from '@/types/Prefecture/Prefecture'
 import type { Meta, StoryObj } from '@storybook/react'
 import CheckBoxes from './CheckBoxes'
 

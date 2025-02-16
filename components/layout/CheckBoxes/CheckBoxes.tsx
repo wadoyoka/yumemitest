@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckBoxesProps } from '@/components/layout/CheckBoxes/CheckBoxesProps'
+import type { CheckBoxesProps } from '@/components/layout/CheckBoxes/CheckBoxesProps'
 import { useCallback, useState } from 'react'
 import { CheckBoxesView } from './CheckBoxesView'
 

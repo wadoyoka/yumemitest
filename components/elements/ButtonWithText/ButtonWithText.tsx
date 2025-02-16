@@ -1,12 +1,11 @@
 'use client'
 
-import { useCallback, useState } from 'react'
 import { ButtonWithTextView } from './ButtonWithTextView'
 
 interface ButtonWithTextProps {
   ButtonSize?: number
   ButtonStrokeWidth?: number
-  isCheck?: boolean
+  isCheck: boolean // 必須に変更
   textSize?: number
   text: string
   mode: 'checkbox' | 'radio'
@@ -16,29 +15,21 @@ interface ButtonWithTextProps {
 export default function ButtonWithText({
   ButtonSize = 24,
   ButtonStrokeWidth = 2,
-  isCheck: initialIsCheck = false,
+  isCheck, // 内部状態管理を削除
   textSize = 16,
   text,
   mode,
   onChange,
 }: ButtonWithTextProps) {
-  const [isChecked, setIsChecked] = useState(initialIsCheck)
-
-  const handleClick = useCallback(() => {
-    const newCheckedState = !isChecked
-    setIsChecked(newCheckedState)
-    onChange?.(newCheckedState)
-  }, [isChecked, onChange])
-
   return (
     <ButtonWithTextView
       ButtonSize={ButtonSize}
       ButtonStrokeWidth={ButtonStrokeWidth}
-      isCheck={isChecked}
+      isCheck={isCheck}
       textSize={textSize}
       text={text}
       mode={mode}
-      onClick={handleClick}
+      onClick={() => onChange?.(!isCheck)}
     />
   )
 }

@@ -1,4 +1,4 @@
-import { Prefecture } from '@/types/Prefecture/Prefecture'
+import type { Prefecture } from '@/types/Prefecture/Prefecture'
 
 export interface CheckBoxesProps {
   checkBoxSize: number
