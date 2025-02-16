@@ -29,11 +29,11 @@ export function CheckBoxView({
       />
       {isCheck && (
         <Check
-          className="relative text-white z-10"
+          className="relative z-10 text-white"
           style={{
             width: size * 0.6,
             height: size * 0.6,
-            strokeWidth: strokeWidth,
+            strokeWidth,
           }}
         />
       )}
