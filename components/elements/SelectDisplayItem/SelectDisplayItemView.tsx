@@ -13,7 +13,7 @@ export function SelectDisplayItemView({
   hoverColor,
 }: SelectDisplayItemViewProps) {
   return (
-    <div
+    <option
       className="w-full cursor-pointer px-4 py-2 transition-colors duration-200"
       style={{
         backgroundColor: baseColor,
@@ -28,9 +28,9 @@ export function SelectDisplayItemView({
         e.currentTarget.style.backgroundColor = baseColor
         e.currentTarget.style.color = textColor
       }}
-      role="option"
+      value={text}
     >
       {text}
-    </div>
+    </option>
   )
 }
