@@ -14,7 +14,7 @@ export function RadioButtonsView({
   onSelect,
 }: RadioButtonsViewProps) {
   return (
-    <div className="flex flex-wrap gap-4" role="radiogroup" aria-label="選択オプション">
+    <div className="flex flex-wrap gap-4 max-md:hidden" role="radiogroup" aria-label="選択オプション">
       {textDatas.map((text, index) => (
         <ButtonWithText
           key={index}

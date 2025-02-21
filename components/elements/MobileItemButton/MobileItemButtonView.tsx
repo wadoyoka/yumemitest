@@ -59,7 +59,7 @@ export function MobileItemButtonView({
         >
           {text}
         </span>
-        <button onClick={onClick} className="focus:outline-none">
+        <button onClick={onClick} className="focus:outline-none" aria-label="削除">
           <X
             size={rightIconSize}
             strokeWidth={rightIconStrokeWidth}

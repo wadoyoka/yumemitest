@@ -20,6 +20,8 @@ export function PrefecturesMobileView({
   baseColor,
   hoverColor,
   borderColor,
+  onPlusClick,
+  onDeleteClick,
 }: PrefecturesMobileViewProps) {
   return (
     <div className="flex w-full flex-col gap-2">
@@ -36,9 +38,10 @@ export function PrefecturesMobileView({
           textColor={textColor}
           hoverTextColor={hoverTextColor}
           baseColor={baseColor}
-          hoverColor={hoverColor}
+          hoverColor={baseColor}
           borderColor={borderColor}
           borderWidth={1}
+          onClick={() => onDeleteClick?.(prefecture)}
         />
       ))}
       <PlusButton
@@ -48,6 +51,7 @@ export function PrefecturesMobileView({
         plusHoverColor={plusHoverColor}
         baseColor={baseColor}
         hoverColor={hoverColor}
+        onClick={onPlusClick}
       />
     </div>
   )

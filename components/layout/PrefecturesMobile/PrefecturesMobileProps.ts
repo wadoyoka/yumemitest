@@ -14,4 +14,6 @@ export interface PrefecturesMobileProps {
   baseColor: string
   hoverColor: string
   borderColor: string
+  onPlusClick?: () => void
+  onDeleteClick?: (prefecture: string) => void
 }

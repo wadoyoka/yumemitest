@@ -6,5 +6,5 @@ export interface CheckBoxesProps {
   checkIndexes: number[]
   textSize: number
   prefectures: Prefecture[]
-  onCheckChange?: (indexes: number[]) => void
+  onCheckChange?: (prefcode: number, indexes: number[]) => void
 }
