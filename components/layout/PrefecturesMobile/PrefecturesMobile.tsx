@@ -19,6 +19,8 @@ export default function PrefecturesMobile({
   baseColor = '#E5E7EB',
   hoverColor = '#F3F4F6',
   borderColor = '#D1D5DB',
+  onPlusClick,
+  onDeleteClick,
 }: PrefecturesMobileProps) {
   return (
     <PrefecturesMobileView
@@ -37,6 +39,8 @@ export default function PrefecturesMobile({
       baseColor={baseColor}
       hoverColor={hoverColor}
       borderColor={borderColor}
+      onPlusClick={onPlusClick}
+      onDeleteClick={onDeleteClick}
     />
   )
 }

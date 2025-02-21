@@ -1,3 +1,4 @@
+'use server'
 import type { PrefectureResponse } from '@/types/Prefecture/Prefecture'
 import axios, { type AxiosError } from 'axios'
 

@@ -14,7 +14,7 @@ export function HeaderView({ mobileText, text, textSize, height, color, textColo
         backgroundColor: color,
         height,
       }}
-      className="flex w-full items-center px-4"
+      className="flex w-full items-center px-8"
     >
       <h1
         style={{

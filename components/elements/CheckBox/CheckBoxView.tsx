@@ -7,12 +7,7 @@ interface CheckBoxViewProps {
   onClick: () => void
 }
 
-export function CheckBoxView({
-  size,
-  strokeWidth,
-  isCheck,
-  onClick,
-}: CheckBoxViewProps) {
+export function CheckBoxView({ size, strokeWidth, isCheck, onClick }: CheckBoxViewProps) {
   return (
     <button
       onClick={onClick}

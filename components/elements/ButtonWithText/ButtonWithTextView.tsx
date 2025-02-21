@@ -21,26 +21,11 @@ export function ButtonWithTextView({
   onClick,
 }: ButtonWithTextViewProps) {
   return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-2"
-      role={mode === 'checkbox' ? 'checkbox' : 'radio'}
-      aria-checked={isCheck}
-    >
+    <div className="flex items-center gap-2" role={mode === 'checkbox' ? 'checkbox' : 'radio'} aria-checked={isCheck}>
       {mode === 'checkbox' ? (
-        <CheckBoxView
-          size={ButtonSize}
-          strokeWidth={ButtonStrokeWidth}
-          isCheck={isCheck}
-          onClick={() => {}}
-        />
+        <CheckBoxView size={ButtonSize} strokeWidth={ButtonStrokeWidth} isCheck={isCheck} onClick={onClick} />
       ) : (
-        <RadioButtonView
-          size={ButtonSize}
-          strokeWidth={ButtonStrokeWidth}
-          isSelected={isCheck}
-          onClick={() => {}}
-        />
+        <RadioButtonView size={ButtonSize} strokeWidth={ButtonStrokeWidth} isSelected={isCheck} onClick={onClick} />
       )}
       <span
         className={`${mode == 'radio' && isCheck == false && 'text-gray-400'}`}
@@ -48,6 +33,6 @@ export function ButtonWithTextView({
       >
         {text}
       </span>
-    </button>
+    </div>
   )
 }
