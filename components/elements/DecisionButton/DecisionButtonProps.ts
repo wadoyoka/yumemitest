@@ -10,5 +10,5 @@ export interface DecisionButtonProps {
   textColor: string
   hoverTextColor: string
   submitText: string
-  onClick?: () => Promise<void>
+  onClick?: () => void
 }

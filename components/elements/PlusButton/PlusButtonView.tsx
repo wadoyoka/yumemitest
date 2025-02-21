@@ -19,6 +19,7 @@ export function PlusButtonView({
       style={{
         backgroundColor: baseColor,
       }}
+      aria-label="追加"
       onMouseOver={(e) => {
         e.currentTarget.style.backgroundColor = hoverColor
         const icon = e.currentTarget.querySelector('svg')

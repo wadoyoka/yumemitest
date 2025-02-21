@@ -1,5 +1,3 @@
-'use client'
-
 import type { SelectDisplayItemProps } from '@/components/elements/SelectDisplayItem/SelectDisplayItemProps'
 import { SelectDisplayItemView } from './SelectDisplayItemView'
 
