@@ -1,10 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { userEvent, within } from '@storybook/test'
 import PrefecturesMobile from './PrefecturesMobile'
 
-const meta: Meta<typeof PrefecturesMobile> = {
+const meta = {
   title: 'Components/PrefecturesMobile',
   component: PrefecturesMobile,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     plusSize: {
       control: { type: 'number', min: 16, max: 48, step: 1 },
@@ -66,11 +70,17 @@ const meta: Meta<typeof PrefecturesMobile> = {
       control: 'color',
       description: 'ボーダーの色',
     },
+    onPlusClick: {
+      action: 'plusClicked',
+    },
+    onDeleteClick: {
+      action: 'deleteClicked',
+    },
   },
-}
+} satisfies Meta<typeof PrefecturesMobile>
 
 export default meta
-type Story = StoryObj<typeof PrefecturesMobile>
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -110,5 +120,24 @@ export const CustomStyle: Story = {
     baseColor: '#F3F4F6',
     hoverColor: '#E5E7EB',
     borderColor: '#9CA3AF',
+  },
+}
+
+export const WithActions: Story = {
+  args: {
+    ...Default.args,
+    onPlusClick: () => console.log('Plus button clicked'),
+    onDeleteClick: (prefecture: string) => console.log(`Delete button clicked for ${prefecture}`),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    // プラスボタンをクリック
+    const plusButton = canvas.getByRole('button', { name: '追加' })
+    await userEvent.click(plusButton)
+
+    // 削除ボタンをクリック
+    const deleteButtons = canvas.getAllByRole('button', { name: '削除' })
+    await userEvent.click(deleteButtons[0])
   },
 }

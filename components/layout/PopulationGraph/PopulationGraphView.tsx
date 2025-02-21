@@ -30,6 +30,11 @@ export function PopulationGraphView({ data }: PopulationGraphViewProps) {
     {} as Record<string, string>,
   )
 
+  // データの年の範囲を取得
+  const years = data.map((item) => item.year)
+  const minYear = Math.min(...years)
+  const maxYear = Math.max(...years)
+
   return (
     <div className="h-[400px] w-full">
       <ResponsiveContainer>
@@ -37,13 +42,20 @@ export function PopulationGraphView({ data }: PopulationGraphViewProps) {
           data={data}
           margin={{
             top: 20,
-            right: 20,
+            right: 30,
             bottom: 20,
             left: 40,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-          <XAxis dataKey="year" type="number" domain={['auto', 'auto']} tickCount={7} stroke="#6B7280" fontSize={12} />
+          <XAxis
+            dataKey="year"
+            type="number"
+            domain={[minYear, maxYear]}
+            tickCount={7}
+            stroke="#6B7280"
+            fontSize={12}
+          />
           <YAxis domain={[0, 'auto']} tickCount={8} width={40} stroke="#6B7280" fontSize={12} />
           <Tooltip
             contentStyle={{
