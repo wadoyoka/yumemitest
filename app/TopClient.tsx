@@ -5,6 +5,8 @@ import PrefectureSelectModal from '@/components/layout/PrefectureSelectModal/Pre
 import PrefecturesMobile from '@/components/layout/PrefecturesMobile/PrefecturesMobile'
 import RadioButtons from '@/components/layout/RadioButtons/RadioButtons'
 import SelectDisplayItemList from '@/components/layout/SelectDisplayItemList/SelectDisplayItemList'
+import type { SearchPrefectureRef } from '@/components/layout/SerchPrefecturre/SearchPrefecture'
+import SearchPrefecture from '@/components/layout/SerchPrefecturre/SearchPrefecture'
 import type { PopulationCompositions } from '@/types/PopulationComposition/PopulationComposition'
 import type { Prefecture } from '@/types/Prefecture/Prefecture'
 import { exclusionTargetPrefecture } from '@/utils/exclusionTargetPrefecture'
@@ -12,7 +14,7 @@ import { getTargetPopulationCompositions } from '@/utils/getTargetPopulationComp
 import { getTargetPrefectures } from '@/utils/getTargetPrefectures'
 import isExistsArray from '@/utils/isExistsArray'
 import joinPopulationCompositionsData from '@/utils/joinPopulationCompositionsData'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface TopClientProps {
   prefectures: Prefecture[]
@@ -20,11 +22,13 @@ interface TopClientProps {
 }
 
 export default function TopClient({ prefectures, populationCompositions }: TopClientProps) {
+  const searchRef = useRef<SearchPrefectureRef>(null)
   const [selectedPrefecturesIndexes, setSelectedPrefecturesIndexes] = useState<number[]>([])
   const [selectedPrefectures, setSelectedPrefectures] = useState<string[]>([])
   const [selectedPopulationCompositions, setSelectedPopulationCompositions] = useState<PopulationCompositions[]>([])
   const [selectPopulatinCategory, setSelectPopulatinCategory] = useState<number>(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [filteredPrefectures, setFilteredPrefectures] = useState<Prefecture[]>(prefectures)
 
   const handleCheckChange = (prefCode: number, indexes: number[]) => {
     const targetNumbers: number[] = [prefCode]
@@ -66,6 +70,7 @@ export default function TopClient({ prefectures, populationCompositions }: TopCl
   // モーダルでの決定
   const handleModalConfirm = () => {
     setIsModalOpen(false)
+    searchRef.current?.reset()
   }
 
   // 都道府県の削除
@@ -79,16 +84,23 @@ export default function TopClient({ prefectures, populationCompositions }: TopCl
     setSelectedPrefectures((prev) => prev.filter((p) => p !== targetPrefectureName))
   }
 
+  const handleSearch = (results: Prefecture[]) => {
+    setFilteredPrefectures(results)
+  }
+
   return (
     <>
       <h1 className="mb-2 text-lg font-bold md:text-xl lg:text-2xl">都道府県</h1>
+      <div className="hidden md:block">
+        <SearchPrefecture prefectures={prefectures} onSearch={handleSearch} />
+      </div>
       <div className="mb-8 hidden md:block">
         <CheckBoxes
           checkBoxSize={16}
           checkBoxStrokeWidth={2}
           checkIndexes={selectedPrefecturesIndexes}
           textSize={16}
-          prefectures={prefectures}
+          prefectures={filteredPrefectures}
           onCheckChange={handleCheckChange}
         />
       </div>
@@ -121,6 +133,9 @@ export default function TopClient({ prefectures, populationCompositions }: TopCl
           onCheckChange={handleCheckChange}
           prefectures={prefectures}
           currentSelected={selectedPrefecturesIndexes}
+          onSearch={handleSearch}
+          filteredPrefectures={filteredPrefectures}
+          ref={searchRef}
         />
       </div>
 

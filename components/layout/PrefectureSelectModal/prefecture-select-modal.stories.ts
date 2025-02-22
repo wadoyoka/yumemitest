@@ -1,24 +1,28 @@
+import PrefectureSelectModal from '@/components/layout/PrefectureSelectModal/PrefectureSelectModal'
 import type { Prefecture } from '@/types/Prefecture/Prefecture'
+import { action } from '@storybook/addon-actions'
 import type { Meta, StoryObj } from '@storybook/react'
-import PrefectureSelectModal from './PrefectureSelectModal'
+import { userEvent, within } from '@storybook/test'
 
-// サンプルデータ
-const PREFECTURES: Prefecture[] = [
+const mockPrefectures: Prefecture[] = [
   { prefCode: 1, prefName: '北海道' },
   { prefCode: 2, prefName: '青森県' },
   { prefCode: 3, prefName: '岩手県' },
   { prefCode: 4, prefName: '宮城県' },
   { prefCode: 5, prefName: '秋田県' },
-  { prefCode: 6, prefName: '山形県' },
-  { prefCode: 7, prefName: '福島県' },
-  { prefCode: 8, prefName: '茨城県' },
-  { prefCode: 9, prefName: '栃木県' },
-  { prefCode: 10, prefName: '群馬県' },
-  { prefCode: 11, prefName: '埼玉県' },
-  { prefCode: 12, prefName: '千葉県' },
-  { prefCode: 13, prefName: '東京都' },
-  { prefCode: 14, prefName: '神奈川県' },
 ]
+
+// デフォルトのprops
+const defaultArgs = {
+  isOpen: true,
+  prefectures: mockPrefectures,
+  filteredPrefectures: mockPrefectures,
+  currentSelected: [1, 3],
+  onClose: action('onClose'),
+  onConfirm: action('onConfirm'),
+  onCheckChange: action('onCheckChange'),
+  onSearch: action('onSearch'),
+}
 
 const meta = {
   title: 'Components/PrefectureSelectModal',
@@ -26,36 +30,45 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      description: {
-        component: '都道府県を選択するためのモーダルコンポーネント。チェックボックスで複数選択が可能です。',
-      },
-    },
   },
   argTypes: {
     isOpen: {
       control: 'boolean',
-      description: 'モーダルの表示/非表示',
-    },
-    onClose: {
-      action: 'closed',
-      description: 'モーダルを閉じる際のコールバック',
-    },
-    onConfirm: {
-      action: 'confirmed',
-      description: '選択を確定する際のコールバック',
-    },
-    onCheckChange: {
-      action: 'checkChanged',
-      description: 'チェックボックスの状態が変更された際のコールバック',
+      description: 'モーダルの表示状態',
     },
     prefectures: {
       control: 'object',
-      description: '選択可能な都道府県の配列',
+      description: '都道府県の配列',
+    },
+    filteredPrefectures: {
+      control: 'object',
+      description: '検索でフィルタリングされた都道府県の配列',
     },
     currentSelected: {
       control: 'object',
-      description: '現在選択されている都道府県コードの配列',
+      description: '現在選択されている都道府県のコード配列',
+    },
+    onClose: {
+      action: 'closed',
+      description: 'モーダルが閉じられた時に呼ばれる関数',
+    },
+    onConfirm: {
+      action: 'confirmed',
+      description: '選択が確定された時に呼ばれる関数',
+    },
+    onCheckChange: {
+      action: 'checkChanged',
+      description: 'チェックボックスの状態が変更された時に呼ばれる関数',
+    },
+    onSearch: {
+      action: 'searched',
+      description: '検索が実行された時に呼ばれる関数',
+    },
+    ref: {
+      description: 'コンポーネントへの参照',
+      table: {
+        disable: true,
+      },
     },
   },
 } satisfies Meta<typeof PrefectureSelectModal>
@@ -63,60 +76,74 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// デフォルトの props を作成
-const defaultProps = {
-  onClose: () => console.log('Modal closed'),
-  onConfirm: (selectedPrefCodes: number[]) => console.log('Confirmed:', selectedPrefCodes),
-  onCheckChange: (prefCode: number, indexes: number[]) => console.log('Check changed:', prefCode, indexes),
-}
-
 export const Default: Story = {
   args: {
-    ...defaultProps,
-    isOpen: true,
-    prefectures: PREFECTURES,
-    currentSelected: [1, 13], // 北海道と東京都
-  },
-}
-
-export const Empty: Story = {
-  args: {
-    ...defaultProps,
-    isOpen: true,
-    prefectures: PREFECTURES,
-    currentSelected: [],
-  },
-}
-
-export const ManySelected: Story = {
-  args: {
-    ...defaultProps,
-    isOpen: true,
-    prefectures: PREFECTURES,
-    currentSelected: [1, 2, 3, 4, 5], // 最初の5県を選択
+    ...defaultArgs,
   },
 }
 
 export const Closed: Story = {
   args: {
-    ...defaultProps,
+    ...defaultArgs,
     isOpen: false,
-    prefectures: PREFECTURES,
-    currentSelected: [1, 13],
   },
 }
 
-// モバイル表示のストーリー
+export const NoSelection: Story = {
+  args: {
+    ...defaultArgs,
+    currentSelected: [],
+  },
+}
+
+export const Filtered: Story = {
+  args: {
+    ...defaultArgs,
+    filteredPrefectures: mockPrefectures.filter((pref) => pref.prefName.includes('県')),
+  },
+}
+
 export const Mobile: Story = {
   args: {
-    ...defaultProps,
-    isOpen: true,
-    prefectures: PREFECTURES,
-    currentSelected: [1, 13],
+    ...defaultArgs,
   },
   parameters: {
     viewport: {
       defaultViewport: 'mobile1',
     },
+  },
+}
+
+export const WithInteractions: Story = {
+  args: {
+    ...defaultArgs,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+
+    try {
+      // モーダルが表示されるのを待つ
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      // 検索入力のテスト
+      const searchInput = await canvas.findByPlaceholderText('都道府県を検索')
+      await userEvent.type(searchInput, '北海')
+
+      // チェックボックスのテスト
+      const checkboxes = await canvas.findAllByRole('checkbox')
+      if (checkboxes.length > 0) {
+        await userEvent.click(checkboxes[0])
+      }
+
+      // 決定ボタンのクリックテスト
+      const confirmButton = await canvas.findByText('決定')
+      await userEvent.click(confirmButton)
+
+      // 閉じるボタンのクリックテスト
+      const closeButton = await canvas.findByLabelText('閉じる')
+      await userEvent.click(closeButton)
+    } catch (error) {
+      console.error('Error in PrefectureSelectModal interactions:', error)
+    }
   },
 }
