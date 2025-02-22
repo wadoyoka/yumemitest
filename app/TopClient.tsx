@@ -1,6 +1,6 @@
 'use client'
 import CheckBoxes from '@/components/layout/CheckBoxes/CheckBoxes'
-import PopulationGraph from '@/components/layout/PopulationGraph/PopulationGraph'
+import PopulationGraphHighCharts from '@/components/layout/PopulationGraphHighCharts/PopulationGraphHighCharts'
 import PrefectureSelectModal from '@/components/layout/PrefectureSelectModal/PrefectureSelectModal'
 import PrefecturesMobile from '@/components/layout/PrefecturesMobile/PrefecturesMobile'
 import RadioButtons from '@/components/layout/RadioButtons/RadioButtons'
@@ -28,6 +28,7 @@ export default function TopClient({ prefectures }: TopClientProps) {
   const handleCheckChange = async (prefCode: number, indexes: number[]) => {
     const targetNumbers: number[] = [prefCode]
     const targetPrefecture = getTargetPrefectures(targetNumbers, prefectures)
+    setSelectedPrefecturesIndexes(indexes)
     if (!isExistsArray(prefCode, selectedPrefecturesIndexes)) {
       const targetPopulationCompositions = await getPopulationCompositions(targetPrefecture)
       const newPopulationCompositions = joinPopulationCompositionsData(
@@ -42,7 +43,6 @@ export default function TopClient({ prefectures }: TopClientProps) {
       )
       setSelectedPrefectures((prev) => prev.filter((p) => p !== targetPrefecture[0].prefName))
     }
-    setSelectedPrefecturesIndexes(indexes)
   }
 
   const handlePopulatinCategoryChange = (index: number) => {
@@ -135,7 +135,7 @@ export default function TopClient({ prefectures }: TopClientProps) {
       </div>
 
       {selectedPopulationCompositions.length > 0 && selectedPopulationCompositions[0].data && (
-        <PopulationGraph data={selectedPopulationCompositions[selectPopulatinCategory].data} />
+        <PopulationGraphHighCharts data={selectedPopulationCompositions[selectPopulatinCategory].data} />
       )}
       <div className="flex">
         <div className="mx-auto mb-24">
