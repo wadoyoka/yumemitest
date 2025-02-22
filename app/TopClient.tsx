@@ -8,7 +8,7 @@ import SelectDisplayItemList from '@/components/layout/SelectDisplayItemList/Sel
 import type { PopulationCompositions } from '@/types/PopulationComposition/PopulationComposition'
 import type { Prefecture } from '@/types/Prefecture/Prefecture'
 import { exclusionTargetPrefecture } from '@/utils/exclusionTargetPrefecture'
-import { getPopulationCompositions } from '@/utils/getPopulationCompositions'
+import { getTargetPopulationCompositions } from '@/utils/getTargetPopulationCompositions'
 import { getTargetPrefectures } from '@/utils/getTargetPrefectures'
 import isExistsArray from '@/utils/isExistsArray'
 import joinPopulationCompositionsData from '@/utils/joinPopulationCompositionsData'
@@ -16,21 +16,25 @@ import { useState } from 'react'
 
 interface TopClientProps {
   prefectures: Prefecture[]
+  populationCompositions: PopulationCompositions[]
 }
 
-export default function TopClient({ prefectures }: TopClientProps) {
+export default function TopClient({ prefectures, populationCompositions }: TopClientProps) {
   const [selectedPrefecturesIndexes, setSelectedPrefecturesIndexes] = useState<number[]>([])
   const [selectedPrefectures, setSelectedPrefectures] = useState<string[]>([])
   const [selectedPopulationCompositions, setSelectedPopulationCompositions] = useState<PopulationCompositions[]>([])
   const [selectPopulatinCategory, setSelectPopulatinCategory] = useState<number>(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleCheckChange = async (prefCode: number, indexes: number[]) => {
+  const handleCheckChange = (prefCode: number, indexes: number[]) => {
     const targetNumbers: number[] = [prefCode]
     const targetPrefecture = getTargetPrefectures(targetNumbers, prefectures)
+
     setSelectedPrefecturesIndexes(indexes)
     if (!isExistsArray(prefCode, selectedPrefecturesIndexes)) {
-      const targetPopulationCompositions = await getPopulationCompositions(targetPrefecture)
+      const targetPopulationCompositions = getTargetPopulationCompositions(populationCompositions, [
+        targetPrefecture[0].prefName,
+      ])
       const newPopulationCompositions = joinPopulationCompositionsData(
         selectedPopulationCompositions,
         targetPopulationCompositions,
