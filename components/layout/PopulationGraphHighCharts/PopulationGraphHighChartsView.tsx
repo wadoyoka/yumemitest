@@ -64,7 +64,7 @@ export function PopulationGraphHighChartsView({ data }: PopulationGraphHighChart
         },
       },
       subtitle: {
-        text: 'データ出典：RESAS（地域経済分析システム）',
+        text: 'データ出典：RESAS（地域経済分析システム）のデータを加工して作成',
         align: 'left',
         style: {
           color: '#666',
@@ -168,7 +168,7 @@ export function PopulationGraphHighChartsView({ data }: PopulationGraphHighChart
   }, [data, prefectures, colors])
 
   return (
-    <div className="w-full rounded-lg bg-white p-4 shadow-sm">
+    <div className="w-full rounded-lg bg-white py-4">
       <HighchartsReact highcharts={Highcharts} options={options} />
     </div>
   )
