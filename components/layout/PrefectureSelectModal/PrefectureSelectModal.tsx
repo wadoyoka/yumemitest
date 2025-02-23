@@ -18,8 +18,8 @@ const PrefectureSelectModal = forwardRef<SearchPrefectureRef, PrefectureSelectMo
     }
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div className="relative w-full max-w-2xl rounded-lg bg-white p-6">
+      <div className="fixed inset-0 z-50 flex items-start bg-black/50">
+        <div className="relative my-16 w-full max-w-2xl rounded-lg bg-white p-6">
           <div className="mb-4 flex items-center justify-between border-b pb-2">
             <h2 className="text-lg font-semibold">都道府県の選択</h2>
             <button onClick={onClose} className="rounded-full p-1 hover:bg-gray-100" aria-label="閉じる">
