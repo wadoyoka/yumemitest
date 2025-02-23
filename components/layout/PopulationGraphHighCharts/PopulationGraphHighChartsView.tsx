@@ -3,7 +3,13 @@
 import type { PopulationData } from '@/types/Population/Population'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import HighchartsAccessibility from 'highcharts/modules/accessibility'
 import { useMemo } from 'react'
+
+// モジュールを適用
+if (typeof HighchartsAccessibility === 'function') {
+  HighchartsAccessibility(Highcharts)
+}
 
 interface PopulationGraphHighChartsViewProps {
   data: PopulationData[]
